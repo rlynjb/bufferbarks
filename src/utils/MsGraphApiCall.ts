@@ -58,9 +58,15 @@ export async function postGraphExcelRow(accessToken: string) {
     const headers = new Headers();
     headers.append("Authorization", `Bearer ${accessToken}`);
 
-    const payload = [
-        [1,2,3]
-    ];
+    const payload = {
+        "values": [
+            [
+                "alex darrow",
+                "123",
+                "adarrow@tenant.onmicrosoft.com"
+            ]
+        ]
+    }
 
     const options = {
         method: "POST",
@@ -68,7 +74,10 @@ export async function postGraphExcelRow(accessToken: string) {
         body: JSON.stringify(payload)
     };
 
-    return fetch(`${domain}/drive/items/01K6AWNMKR4C6YCVVJHZG3ZTWJVJDXQCN6/workbook/worksheets/Sheet1/tables/Table1/rows`, options)
+    return fetch(
+        `${domain}/drive/items/01K6AWNMKR4C6YCVVJHZG3ZTWJVJDXQCN6/workbook/tables/Table1/rows`,
+        options
+    )
         .then(response => response.json())
         .catch(error => {
             console.log(error);
