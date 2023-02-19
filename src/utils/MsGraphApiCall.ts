@@ -1,6 +1,9 @@
-import { graphConfig, loginRequest } from "../authConfig";
+import { loginRequest } from "../authConfig";
+import { useMsal } from "../composition-api/useMsal";
+const { instance, inProgress } = useMsal();
 
 const domain = 'https://graph.microsoft.com/v1.0/me';
+
 
 export async function getGraphProfile(accessToken: string) {
     const headers = new Headers();

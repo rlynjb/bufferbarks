@@ -45,10 +45,3 @@ export const msalInstance = new PublicClientApplication(msalConfig);
 export const loginRequest = {
   scopes: ['User.Read', 'Files.Read', 'Files.ReadWrite'],
 };
-
-// Add here the endpoints for MS Graph API services you would like to use.
-export const graphConfig = {
-  graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me',
-  graphDriveListEndpoint: 'https://graph.microsoft.com/v1.0/me/drive/root/children',
-  graphExcelWorksheets: 'https://graph.microsoft.com/v1.0/me/drive/items/01K6AWNMKR4C6YCVVJHZG3ZTWJVJDXQCN6/workbook/worksheets',
-};

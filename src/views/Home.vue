@@ -75,7 +75,7 @@ import { useMsal } from "../composition-api/useMsal";
 import { InteractionRequiredAuthError, InteractionStatus } from "@azure/msal-browser";
 import { loginRequest } from "../authConfig";
 import {
-  getGraphProfile, getGraphDriveItems, getGraphExcel, postGraphExcelRow
+  getGraphDriveItems, getGraphExcel, postGraphExcelRow
 } from "../utils/MsGraphApiCall";
 
 const { instance, inProgress } = useMsal();
@@ -88,37 +88,36 @@ const state = reactive({
   driveListItems: [],
 });
 
+async function getToken() {
+  return await instance.acquireTokenSilent({
+    ...loginRequest
+  }).catch(async (e) => {
+    if (e instanceof InteractionRequiredAuthError) {
+      await instance.acquireTokenRedirect(loginRequest);
+    }
+    throw e;
+  });
+}
+
 function goToProfile() {
   router.push("/profile");
 }
 
 async function getDriveListItems() {
-	const response = await instance.acquireTokenSilent({
-		...loginRequest
-	}).catch(async (e) => {
-		if (e instanceof InteractionRequiredAuthError) {
-			await instance.acquireTokenRedirect(loginRequest);
-		}
-		throw e;
-	});
-	if (inProgress.value === InteractionStatus.None) {
-		const graphData = await getGraphDriveItems(response.accessToken);
+  const response = await getToken();
+
+  if (inProgress.value === InteractionStatus.None) {
+    const graphData = await getGraphDriveItems(response.accessToken);
     state.driveListItems = graphData.value;
     console.log(state.driveListItems)
-		//state.resolved = true;
-		//stopWatcher();
-	}
+    //state.resolved = true;
+    //stopWatcher();
+  }
 }
 
 async function getExcel(id) {
-	const response = await instance.acquireTokenSilent({
-		...loginRequest
-	}).catch(async (e) => {
-		if (e instanceof InteractionRequiredAuthError) {
-			await instance.acquireTokenRedirect(loginRequest);
-		}
-		throw e;
-	});
+	const response = await getToken();
+
 	if (inProgress.value === InteractionStatus.None) {
 		const graphData = await getGraphExcel(response.accessToken, id);
     console.log(graphData)
@@ -129,14 +128,8 @@ async function getExcel(id) {
 }
 
 async function postNewExcelRow() {
-	const response = await instance.acquireTokenSilent({
-		...loginRequest
-	}).catch(async (e) => {
-		if (e instanceof InteractionRequiredAuthError) {
-			await instance.acquireTokenRedirect(loginRequest);
-		}
-		throw e;
-	});
+	const response = await getToken();
+
 	if (inProgress.value === InteractionStatus.None) {
 		const graphData = await postGraphExcelRow(response.accessToken);
 		//state.data = graphData;
