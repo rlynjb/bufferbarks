@@ -1,10 +1,8 @@
 <template>
   <div>
     <NavBar />
-    <!--
     <img alt="Vue logo" src="./assets/logo.png">
-    -->
-    <h3 class="title">Microsoft 365 x Graph API x Vue3 App POC</h3>
+    <h1>Welcome to the Microsoft Authentication Library For Vue Quickstart</h1>
     <router-view />
   </div>
 </template>
@@ -26,8 +24,5 @@ export default defineComponent({
   font-family: Avenir, Helvetica, Arial, sans-serif;
   text-align: center;
   color: #2c3e50;
-}
-.title {
-  margin: 3vw;
 }
 </style>
