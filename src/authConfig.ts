@@ -4,8 +4,8 @@ import { LogLevel, PublicClientApplication } from '@azure/msal-browser'
 export const msalConfig = {
   // ref: https://stackoverflow.com/questions/50828904/using-environment-variables-with-vue-js
   auth: {
-    clientId: import.meta.env.VITE_CLIENT_ID,
-    authority: import.meta.env.VITE_AUTHORITY,
+    clientId: 'e210550d-d5ba-4ffd-baf6-3a7874ff19af',
+    authority: 'https://login.microsoftonline.com/b5402a82-5921-4dab-a9bd-9dab161cc691',
     redirectUri: '/', // Must be registered as a SPA redirectURI on your app registration
     postLogoutRedirectUri: '/', // Must be registered as a SPA redirectURI on your app registration
   },
