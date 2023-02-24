@@ -17,7 +17,7 @@ const isAuthenticated = useIsAuthenticated();
 
 const router = useRouter();
 
-function goTo(page) {
+function goTo(page: string) {
   router.push(`/${page}`);
 }
 </script>
