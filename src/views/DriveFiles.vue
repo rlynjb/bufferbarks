@@ -35,10 +35,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, reactive, toRaw } from 'vue';
+import {
+  ref,
+  onMounted,
+  watch,
+  reactive,
+  toRaw,
+  Ref
+} from 'vue';
+
 import { useMsGraph } from '@/composition-api/useMsGraph';
 
-const { getDriveFiles, getExcel, getTables, getColumns, postRow } = useMsGraph();
+const {
+  getDriveFiles,
+  getExcel,
+  getTables,
+  getColumns,
+  postRow
+} = useMsGraph();
 
 // good read about ref vs reactive in vue3: https://www.danvega.dev/blog/2020/02/12/vue3-ref-vs-reactive/
 // this is better: https://blog.deepgram.com/diving-into-vue-3-reactivity-api/
@@ -51,11 +65,17 @@ const tables = ref();
 const columns = ref();
 const selectedFile = ref();
 const selectedSheet = ref();
-const columnValues = ref({});
+
+// good read for dynamically assigning properties to object
+// ref: https://stackoverflow.com/questions/12710905/how-do-i-dynamically-assign-properties-to-an-object-in-typescript
+interface ColumnValuesDictionary {
+  [index: string]: string
+}
+const columnValues = ref<ColumnValuesDictionary>({});
 
 watch(selectedSheet, (currentVal, oldVal) => {
-  tables.value = null;
-  columns.value = null;
+  tables.value = [];
+  columns.value = [];
 
   getTable(selectedFile.value, selectedSheet.value);
 });
@@ -95,21 +115,23 @@ async function getFields(
   columns.value = res;
 
   // add empty object properties for field values
-  res.value.forEach((field: Object) => {
-    columnValues.value[field.name] = '';
+  res.value.forEach((field: { name: string }) => {
+    let label = field.name as string;
+    columnValues.value[label] = '';
   });
+  debugger
 }
 
 async function submit() {
-  const rawLabelObj: Array<object> = toRaw(columns.value.value);
-  const labelsInOrder: Array<string> = rawLabelObj.map((c: Object) => c.name);
+  const rawLabelObj: Array<any> = toRaw(columns.value.value);
+  const labelsInOrder: Array<string> = rawLabelObj.map((c: { name:string }) => c.name);
 
-  const rawValueObj: Object = toRaw(columnValues.value);
+  const rawValueObj: any = toRaw(columnValues.value);
   const valuesInOrder: Array<string> = labelsInOrder.map((v: string) => rawValueObj[v]);
 
   const payload: Array<string> = valuesInOrder;
   const rawTableID: string = toRaw(tables.value.value)[0].id;
-
+debugger
   const res = await postRow(
     selectedFile.value,
     selectedSheet.value,

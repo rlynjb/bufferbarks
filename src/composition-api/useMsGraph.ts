@@ -17,7 +17,7 @@ export function useMsGraph() {
 
   async function getDriveFiles() {
     try {
-      const { data } = await axios.get(`${baseUrl}/drive/root/children`);
+      const { data } = await axios.get<microsoftgraph.DriveItem>(`${baseUrl}/drive/root/children`);
       return data;
     } catch (error) {
       console.log('Error getting drive items: ', error);
