@@ -1,5 +1,9 @@
 # MSAL.js 2.x + Vue 3 + TypeScript Sample
 
+## Research Use Cases
+- https://www.espire.com/blog/posts/microsoft-graph-top-usecases-for-businesses-to-bolster-productivity-and-growth
+- https://www.codemag.com/Article/2107021/Let%E2%80%99s-Talk-About-Microsoft-Graph
+
 ## About this sample
 
 This sample demonstrates one way you can integrate the `@azure/msal-browser` package into your Vue 3 application using the [composition API](https://v3.vuejs.org/api/composition-api.html). It is not exhaustive and there may be simpler or more complex solutions depending on your specific use case.
