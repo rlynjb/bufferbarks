@@ -63,6 +63,7 @@ const files = ref();
 const worksheets = ref();
 const tables = ref();
 const columns = ref();
+
 const selectedFile = ref();
 const selectedSheet = ref();
 
@@ -94,14 +95,12 @@ async function getTable(
   worksheetID: string
 ) {
   // getTable pass in fileID, worksheetID
-  let res = await getTables(fileID, worksheetID);
-  tables.value = res;
+  tables.value = await getTables(fileID, worksheetID);
 
-  if (!res.value.length) return
   getFields(
     selectedFile.value,
     selectedSheet.value,
-    res.value[0].id
+    tables.value.value[0].id
   );
 }
 
@@ -111,15 +110,13 @@ async function getFields(
   tableID: string
 ) {
   // getColumns pass in fileID, worksheetID, tableID
-  const res = await getColumns(fileID, worksheetID, tableID);
-  columns.value = res;
+  columns.value = await getColumns(fileID, worksheetID, tableID);
 
   // add empty object properties for field values
-  res.value.forEach((field: { name: string }) => {
+  columns.value.value.forEach((field: { name: string }) => {
     let label = field.name as string;
     columnValues.value[label] = '';
   });
-  debugger
 }
 
 async function submit() {
@@ -131,7 +128,7 @@ async function submit() {
 
   const payload: Array<string> = valuesInOrder;
   const rawTableID: string = toRaw(tables.value.value)[0].id;
-debugger
+
   const res = await postRow(
     selectedFile.value,
     selectedSheet.value,

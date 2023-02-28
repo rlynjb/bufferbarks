@@ -26,7 +26,7 @@ export function useMsGraph() {
 
   async function getExcel(id: string) {
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.get<microsoftgraph.WorkbookWorksheet>(
         `${baseUrl}/drive/items/${id}/workbook/worksheets`,
       );
       return data;
@@ -37,7 +37,7 @@ export function useMsGraph() {
 
   async function getTables(id: string, worksheetID: string) {
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.get<microsoftgraph.WorkbookTable>(
         `${baseUrl}/drive/items/${id}/workbook/worksheets/${worksheetID}/tables`,
       );
       return data;
@@ -48,7 +48,7 @@ export function useMsGraph() {
 
   async function getColumns(fileID: string, worksheetID: string, tableID: string) {
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.get<microsoftgraph.WorkbookTableColumn>(
         `${baseUrl}/drive/items/${fileID}/workbook/worksheets/${worksheetID}/tables/${tableID}/columns`,
       );
       return data;
@@ -62,7 +62,7 @@ export function useMsGraph() {
       const payloadObj = {
         values: [payload],
       };
-      const { data } = await axios.post(
+      const { data } = await axios.post<microsoftgraph.WorkbookTableRow>(
         `${baseUrl}/drive/items/${fileID}/workbook/worksheets/${worksheetID}/tables/${tableID}/rows`,
         payloadObj,
       );
